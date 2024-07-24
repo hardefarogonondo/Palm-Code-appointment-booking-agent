@@ -7,11 +7,13 @@ from models.mock_response import mock_response
 from pydantic import ValidationError
 import logging
 import os
+import requests
 import uvicorn
 
 app = FastAPI()
 setup_cors_and_logging(app)
 appointments_df = load_appointments_data('../../data/appointments.csv')
+RASA_SERVER_URL = 'http://localhost:5005/webhooks/rest/webhook'
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -29,9 +31,23 @@ async def chat(request: Request):
         logging.info(f"Incoming request payload: {payload}")
         outer_message = OuterMessage(**payload)
         message = outer_message.message
-        response = mock_response(message.content)
-        logging.info(f"Response message: {response}")
-        return {"message": {"content": response, "id": message.id}}
+        ##############################
+        # response = mock_response(message.content)
+
+        # Send user message to Rasa server
+        response = requests.post(RASA_SERVER_URL, json={
+                                 "sender": message.id, "message": message.content})
+        response_data = response.json()
+        if response_data:
+            rasa_response = response_data[0].get(
+                "text", "No response received")
+        else:
+            rasa_response = "Sorry, I didn't understand that. Can you please rephrase?"
+        logging.info(f"Response message: {rasa_response}")
+        return {"message": {"content": rasa_response, "id": message.id}}
+
+        # logging.info(f"Response message: {message}")
+        # return {"message": {"content": response, "id": message.id}}
     except ValidationError as error:
         logging.error(f"Validation error: {error.json()}")
         raise HTTPException(status_code=422, detail="Invalid request payload")
