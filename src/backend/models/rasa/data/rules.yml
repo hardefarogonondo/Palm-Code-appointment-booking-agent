@@ -1,0 +1,25 @@
+version: "3.1"
+
+rules:
+
+- rule: Greet user
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- rule: Fallback action
+  steps:
+  - intent: nlu_fallback
+  - action: action_default_fallback
+
+- rule: Booking an appointment
+  steps:
+  - intent: book_appointment
+  - action: action_book_appointment
+  - action: utter_confirm_appointment
+
+- rule: Asking for availability
+  steps:
+  - intent: ask_availability
+  - action: action_check_availability
+  - action: utter_ask_availability

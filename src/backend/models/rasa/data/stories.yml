@@ -1,0 +1,20 @@
+version: "3.1"
+
+stories:
+- story: book appointment
+  steps:
+    - intent: book_appointment
+    - action: action_book_appointment
+    - action: utter_confirm_appointment
+
+- story: ask availability
+  steps:
+    - intent: ask_availability
+    - action: action_check_availability
+    - action: utter_ask_availability
+
+- story: cancel appointment
+  steps:
+    - intent: cancel_appointment
+    - action: action_cancel_appointment
+    - action: utter_cancel_confirmation

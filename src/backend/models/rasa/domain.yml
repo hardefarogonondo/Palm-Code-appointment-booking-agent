@@ -1,0 +1,44 @@
+version: "3.1"
+
+intents:
+  - greet
+  - book_appointment
+  - ask_availability
+  - cancel_appointment
+
+entities:
+  - time
+  - date
+
+slots:
+  time:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: time
+  date:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: date
+
+responses:
+  utter_greet:
+    - text: "Hello! How can I assist you today?"
+    - text: "Hi there! How can I help you?"
+    - text: "Hey! What can I do for you?"
+    - text: "Welcome to Example Inc. How may I assist you?"
+    - text: "Hi! Looking to book an appointment or have a question?"
+  utter_confirm_appointment:
+    - text: "Your appointment is booked for {time} on {date}."
+  utter_ask_availability:
+    - text: "Please specify the date and time you are looking for."
+  utter_cancel_confirmation:
+    - text: "Your appointment on {date} at {time} has been canceled."
+  utter_slot_unavailable:
+    - text: "Unfortunately, the slot for {time} on {date} is unavailable. Please choose another time."
+
+actions:
+  - action_book_appointment
+  - action_check_availability
+  - action_cancel_appointment

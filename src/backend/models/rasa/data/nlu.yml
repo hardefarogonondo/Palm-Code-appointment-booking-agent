@@ -1,0 +1,72 @@
+version: "3.1"
+
+nlu:
+
+- intent: greet
+  examples: |
+    - Hi
+    - Hello
+    - Hey
+    - Good morning
+    - Good afternoon
+    - Good Evening
+    - Howdy
+    - Hello there
+    - Hey there
+
+- intent: book_appointment
+  examples: |
+    - Yes
+    - Yes, I want to book an appointment
+    - I want to book an appointment
+    - Can I schedule a meeting?
+    - I need to book a slot
+    - I'd like to book a slot
+    - Do you have any openings tomorrow?
+    - Is there a timeslot free next week?
+    - Do you have some time later today?
+    - I'd like to schedule an appointment for next Monday
+    - Can I book a meeting for the [10th of August](date)?
+    - Is there availability for next Tuesday?
+    - I'd like an appointment next week
+    - Can I book an appointment at [3 PM](time)?
+    - Is there a slot available this afternoon?
+    - Could I get an appointment on Monday?
+    - How about a meeting next Friday?
+    - I want to book an appointment for [tomorrow](date)
+    - Can I schedule a meeting on [next Friday](date)?
+    - I'd like to book a slot on [10th of August](date)
+    - Do you have any openings on [2024-10-20](date)?
+    - Can I book an appointment at [3 PM](time) on [Monday](date)?
+    - Is there a slot available at [14:00](time) tomorrow?
+    - How about [next Monday at 2 PM](time)?
+    - Book me an appointment for [the 5th of July](date)
+    - I want to book an appointment at [10 AM](time) on [2024-07-20](date)
+    - Can I schedule a meeting for [next Monday](date)?
+    - I'd like to book a slot on [10th of August](date)
+
+
+- intent: ask_availability
+  examples: |
+    - What slots are available today?
+    - Can you tell me the free times for tomorrow?
+    - Are there any openings this week?
+    - When is the next available appointment?
+    - Could you check if there's time available next Friday?
+    - Is there any free time this weekend?
+    - When can I come in next?
+
+- intent: cancel_appointment
+  examples: |
+    - I want to cancel my appointment
+    - Can I cancel the appointment I booked?
+    - I'd like to cancel my booking for tomorrow
+    - Please cancel my meeting on Tuesday
+    - How do I cancel an appointment?
+    - Can you cancel my appointment for next week?
+
+regex:
+- name: date
+  pattern: "(today|tomorrow|next week|next [a-zA-Z]+|[0-9]{1,2}(st|nd|rd|th)? of [a-zA-Z]+|[0-9]{4}-[0-9]{2}-[0-9]{2})"
+- name: time
+  pattern: "([0-9]{1,2}(:[0-9]{2})?(am|pm|AM|PM)?|[0-9]{1,2}(am|pm|AM|PM))"
