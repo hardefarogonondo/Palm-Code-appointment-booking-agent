@@ -31,10 +31,6 @@ async def chat(request: Request):
         logging.info(f"Incoming request payload: {payload}")
         outer_message = OuterMessage(**payload)
         message = outer_message.message
-        ##############################
-        # response = mock_response(message.content)
-
-        # Send user message to Rasa server
         response = requests.post(RASA_SERVER_URL, json={
                                  "sender": message.id, "message": message.content})
         response_data = response.json()
@@ -45,9 +41,6 @@ async def chat(request: Request):
             rasa_response = "Sorry, I didn't understand that. Can you please rephrase?"
         logging.info(f"Response message: {rasa_response}")
         return {"message": {"content": rasa_response, "id": message.id}}
-
-        # logging.info(f"Response message: {message}")
-        # return {"message": {"content": response, "id": message.id}}
     except ValidationError as error:
         logging.error(f"Validation error: {error.json()}")
         raise HTTPException(status_code=422, detail="Invalid request payload")
