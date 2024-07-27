@@ -1,6 +1,9 @@
-# Configuration for Rasa NLU.
-# https://rasa.com/docs/rasa/nlu/components/
+recipe: default.v1
+
+assistant_id: Palm_Code_appointment_booking_agent
+
 language: en
+
 pipeline:
 - name: WhitespaceTokenizer
 - name: RegexFeaturizer
@@ -13,18 +16,23 @@ pipeline:
   max_ngram: 4
 - name: DIETClassifier
   epochs: 100
+  constrain_similarities: True
   entity_recognition: True
 - name: EntitySynonymMapper
 - name: ResponseSelector
   epochs: 100
+  constrain_similarities: True
+- name: FallbackClassifier
+  threshold: 0.3
+  ambiguity_threshold: 0.1
 
-
-# Configuration for Rasa Core.
-# https://rasa.com/docs/rasa/core/policies/
 policies:
 - name: MemoizationPolicy
+- name: RulePolicy
+- name: UnexpecTEDIntentPolicy
+  max_history: 5
+  epochs: 100
 - name: TEDPolicy
   max_history: 5
   epochs: 100
-- name: RulePolicy
-assistant_id: 20240724-231136-cold-turkey
+  constrain_similarities: True

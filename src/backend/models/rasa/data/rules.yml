@@ -4,22 +4,48 @@ rules:
 
 - rule: Greet user
   steps:
-  - intent: greet
-  - action: utter_greet
+    - intent: greet
+    - action: utter_greet
 
 - rule: Fallback action
   steps:
-  - intent: nlu_fallback
-  - action: action_default_fallback
+    - action: action_default_fallback
 
-- rule: Booking an appointment
+- rule: Booking an appointment - ask for duration
+  condition:
+    - slot_was_set:
+        - duration: null
   steps:
-  - intent: book_appointment
-  - action: action_book_appointment
-  - action: utter_confirm_appointment
+    - action: utter_ask_duration
+    - action: action_listen
+
+- rule: Booking an appointment - duration provided
+  condition:
+    - slot_was_set:
+        - duration
+  steps:
+    - action: action_book_appointment
+    - action: action_ask_confirmation
+
+- rule: Provide duration after being asked
+  steps:
+    - intent: specify_duration
+    - action: action_book_appointment
+    - action: action_ask_confirmation
 
 - rule: Asking for availability
   steps:
-  - intent: ask_availability
-  - action: action_check_availability
-  - action: utter_ask_availability
+    - intent: ask_availability
+    - action: action_check_availability
+    - action: utter_ask_availability
+
+- rule: Confirm appointment
+  steps:
+    - intent: confirm_appointment
+    - action: action_confirm_booking
+    - action: utter_ask_anything_else
+
+- rule: End conversation
+  steps:
+    - intent: end_conversation
+    - action: action_end_conversation

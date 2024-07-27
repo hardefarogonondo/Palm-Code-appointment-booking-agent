@@ -1,17 +1,50 @@
 version: "3.1"
 
 stories:
-- story: book appointment
-  steps:
-    - intent: book_appointment
-    - action: action_book_appointment
-    - action: utter_confirm_appointment
 
-- story: ask availability
+- story: greet the user
+  steps:
+    - intent: greet
+    - action: utter_greet
+
+- story: ask for availability
   steps:
     - intent: ask_availability
     - action: action_check_availability
     - action: utter_ask_availability
+
+- story: book appointment with confirmation
+  steps:
+    - intent: book_appointment
+    - action: utter_ask_duration
+    - intent: specify_duration
+    - action: action_book_appointment
+    - action: action_ask_confirmation
+    - intent: confirm_appointment
+    - action: action_confirm_booking
+    - action: utter_ask_anything_else
+
+- story: provide duration and book appointment
+  steps:
+    - intent: specify_duration
+    - action: action_book_appointment
+    - action: action_ask_confirmation
+    - intent: confirm_appointment
+    - action: action_confirm_booking
+    - action: utter_ask_anything_else
+
+- story: end conversation
+  steps:
+    - intent: end_conversation
+    - action: action_end_conversation
+
+- story: confirm and end conversation
+  steps:
+    - intent: confirm_appointment
+    - action: action_confirm_booking
+    - action: utter_ask_anything_else
+    - intent: end_conversation
+    - action: action_end_conversation
 
 - story: cancel appointment
   steps:

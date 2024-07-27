@@ -4,23 +4,36 @@ intents:
   - greet
   - book_appointment
   - ask_availability
+  - specify_duration
+  - confirm_appointment
+  - end_conversation
   - cancel_appointment
 
 entities:
   - time
   - date
+  - duration
 
 slots:
-  time:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: time
   date:
     type: text
     mappings:
       - type: from_entity
         entity: date
+  time:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: time
+  duration:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: duration
+  pending_appointment:
+    type: any
+    mappings:
+      - type: custom
 
 responses:
   utter_greet:
@@ -29,16 +42,102 @@ responses:
     - text: "Hey! What can I do for you?"
     - text: "Welcome to Example Inc. How may I assist you?"
     - text: "Hi! Looking to book an appointment or have a question?"
+    - text: "Greetings! How can I be of service today?"
   utter_confirm_appointment:
-    - text: "Your appointment is booked for {time} on {date}."
+    - text: "Booking confirmed for {date} at {time} for {duration} minutes."
+    - text: "Your appointment on {date} at {time} for {duration} minutes is confirmed."
+    - text: "I've scheduled your appointment on {date} at {time} for {duration} minutes."
+    - text: "Your appointment has been successfully booked for {date} at {time}, lasting {duration} minutes."
   utter_ask_availability:
     - text: "Please specify the date and time you are looking for."
-  utter_cancel_confirmation:
-    - text: "Your appointment on {date} at {time} has been canceled."
+    - text: "Could you tell me when you are available?"
+    - text: "Let me know the date and time you prefer for your appointment."
+    - text: "When would you like to schedule your appointment?"
   utter_slot_unavailable:
     - text: "Unfortunately, the slot for {time} on {date} is unavailable. Please choose another time."
+    - text: "That time slot on {date} is already booked. Could you select a different time?"
+    - text: "The time you've chosen for {date} is not available. Please pick another time."
+    - text: "I'm sorry, but the {time} slot on {date} is taken. Could you choose a different time?"
+  utter_ask_duration:
+    - text: "How long will the appointment be? Please specify in minutes."
+    - text: "Could you tell me how long the appointment will last? Please provide the duration in minutes."
+    - text: "For how many minutes would you like to book the appointment?"
+    - text: "Please specify the duration of the appointment in minutes."
+  utter_ask_confirmation:
+    - text: "Do you want to confirm this appointment?"
+    - text: "Shall I go ahead and confirm this appointment?"
+    - text: "Would you like to confirm this booking?"
+    - text: "Should I finalize this appointment for you?"
+  utter_ask_anything_else:
+    - text: "Is there anything else I can help you with?"
+    - text: "Do you need assistance with anything else?"
+    - text: "Is there something else you would like to do?"
+    - text: "Can I help you with anything else?"
+  utter_end_conversation:
+    - text: "Thank you! Have a great day!"
+    - text: "Thanks! Wishing you a wonderful day!"
+    - text: "Goodbye! Take care and have a great day!"
+    - text: "Thank you! Looking forward to assisting you again. Have a great day!"
+  utter_cancel_confirmation:
+    - text: "Your appointment on {date} at {time} has been canceled."
+    - text: "I've canceled your appointment on {date} at {time}."
+    - text: "The appointment you had on {date} at {time} has been successfully canceled."
+    - text: "Your booking for {date} at {time} is now canceled."
+  utter_ask_date:
+    - text: "Could you please specify a date for your appointment?"
+    - text: "Can you let me know the date you'd like to book?"
+    - text: "Please provide the date for your appointment."
+    - text: "What date are you looking to book?"
+  utter_ask_time:
+    - text: "Could you please specify a time for your appointment?"
+    - text: "Can you tell me what time you'd like to book?"
+    - text: "Please provide the time for your appointment."
+    - text: "What time are you considering for the appointment?"
+  utter_ask_date_time_clear:
+    - text: "Could you please specify the date and time more clearly?"
+    - text: "I didn't catch that. Could you provide the date and time more precisely?"
+    - text: "Please clarify the date and time for your appointment."
+    - text: "Could you give me the date and time again, but more clearly?"
+  utter_invalid_duration:
+    - text: "Could not understand the duration. Please specify it in minutes."
+    - text: "The duration isn't clear. Could you specify it in minutes?"
+    - text: "I didn't understand the duration. Please tell me how many minutes."
+    - text: "Could you clarify the duration in minutes, please?"
+  utter_no_data_folder:
+    - text: "The data folder does not exist."
+    - text: "It seems the data folder is missing."
+    - text: "I can't find the data folder."
+    - text: "The data folder isn't available."
+  utter_no_appointments_file:
+    - text: "The appointments file does not exist."
+    - text: "It seems the appointments file is missing."
+    - text: "I can't find the appointments file."
+    - text: "The appointments file isn't available."
+  utter_load_appointments_error:
+    - text: "Could not load the appointments data due to an error."
+    - text: "An error occurred while loading the appointments data."
+    - text: "I encountered an issue loading the appointments data."
+    - text: "There was an error loading the appointments data."
+  utter_booking_error:
+    - text: "An error occurred while booking your appointment. Please try again."
+    - text: "I couldn't complete the booking due to an error. Please try again."
+    - text: "There was an error booking your appointment. Could you try again?"
+    - text: "Something went wrong during the booking process. Please try again."
+  utter_no_appointment_to_confirm:
+    - text: "No appointment to confirm."
+    - text: "I don't have any appointment details to confirm."
+    - text: "It seems there is no appointment to confirm."
+    - text: "There's nothing to confirm at the moment."
+  utter_save_appointment_error:
+    - text: "Could not save the appointment due to an error."
+    - text: "An error prevented me from saving the appointment."
+    - text: "I couldn't save the appointment due to an issue."
+    - text: "There was an error saving the appointment."
 
 actions:
   - action_book_appointment
   - action_check_availability
   - action_cancel_appointment
+  - action_ask_confirmation
+  - action_confirm_booking
+  - action_end_conversation
